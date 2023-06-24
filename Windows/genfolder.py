@@ -8,8 +8,16 @@ import shutil
 import random
 import hashlib 
 
+# # 获取目录名和平台参数
+directory = sys.argv[1]
+# platform = sys.argv[2]
 # 当前目录
-current_dir = os.getcwd()
+current_dir = f"{os.getcwd()}\{directory}"
+print(current_dir )
+directory = current_dir
+dbtype_list = os.listdir(current_dir) 
+# 当前目录
+# current_dir = os.getcwd()
 
 # 获取所有.aab文件
 aab_files = glob.glob(os.path.join(current_dir, '*.apk'))
@@ -34,7 +42,7 @@ for aab_file in aab_files:
             target_dir = os.path.join(current_dir, package)
             target_file = os.path.join(target_dir, os.path.basename(aab_file))
             if not os.path.exists(target_dir):
-                os.makedirs(package)                 
+                os.makedirs(target_dir)                 
                 # 移动.aab文件到目标目录
                 
                 print(target_file)
@@ -43,6 +51,7 @@ for aab_file in aab_files:
                 # 
             shutil.copyfile(aab_file,target_file)
             
+            print("gen scueess")
 
        
        

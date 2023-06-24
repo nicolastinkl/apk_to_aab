@@ -109,7 +109,7 @@
 * 一键执行apk转化为aab文件
   
   ```shell
-  python.exe .\signAll.py 111
+  python.exe signAll.py 111
   ```
 
 

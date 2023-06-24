@@ -66,7 +66,7 @@
 
 
 
-# 下载后的apk一键生成子目录，根据包名设置
+*  下载后的apk一键生成子目录，根据包名设置
 
     ```shell
     python3.11 genApkfolder.py ss
@@ -74,13 +74,13 @@
 
 ![](images/Snipaste_2023-06-24_21-23-46.png)
 
-# 但是输入脚本太过于复杂，所以添加了一个自动查找签名识别证书的脚本，一键签名
+*  但是输入脚本太过于复杂，所以添加了一个自动查找签名识别证书的脚本，一键签名
 
     ```shell
     python3.11 signAllApks.py ss
     ```
 
-![](Snipaste_2023-06-24_21-24-32.png) 
+![](images/Snipaste_2023-06-24_21-24-32.png) 
 
 
 ### License

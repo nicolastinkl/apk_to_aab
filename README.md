@@ -1,0 +1,2 @@
+# apk_to_aab
+Android平台下apk转化为aab文件的python脚本，支持Windows和Macos以及Ubuntu

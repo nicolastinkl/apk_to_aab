@@ -1,0 +1,7 @@
+ python3.10 bundletool.py -i  apk/9c9188e07afae49ad49921c2939d76b3.20230616115117.apk  -o test.aab --keystore  apk/keystore.jks  --store_password 123458  --key_alias  superchallenge --key_password  123458
+
+
+
+
+
+ python3.10 bundletool.py -i  apk/JackpotMasterSlots_KeyStore/a785676c1b21e1090a217d05f93ddc29.20230619105822.apk  -o a785676c1b21e1090a217d05f93ddc29.aab --keystore  apk/JackpotMasterSlots_KeyStore/user.keystore  --store_password JackpotMasterSlots1!@#  --key_alias  JackpotMasterSlots --key_password  JackpotMasterSlots1!@#

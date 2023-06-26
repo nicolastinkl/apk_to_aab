@@ -44,7 +44,7 @@ def get_base_dir() -> str:
 APKTOOL_PATH = os.path.join(get_base_dir(), "tools", "apktool_2.7.0.jar")
 AAPT2_PATH = os.path.join(get_base_dir(), "tools", "aapt2", get_system(), "aapt2")
 ANDROID_JAR_PATH = os.path.join(get_base_dir(), "tools", "android_33.jar")
-BUNDLETOOL_TOOL_PATH = os.path.join(get_base_dir(), "tools", "bundletool-all-1.6.1.jar")
+BUNDLETOOL_TOOL_PATH = os.path.join(get_base_dir(), "tools", "bundletool-all-1.15.1.jar") #bundletool-all-1.6.1.jar
 
 KEYSTORE = os.path.join(get_base_dir(), "tools", "test.jks")
 STORE_PASSWORD = "test123"

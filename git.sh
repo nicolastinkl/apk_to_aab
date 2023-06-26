@@ -2,7 +2,7 @@
 
 
 # 遍历目录及子目录下所有超过100MB大小的文件
-find . -type f -size +100M | while read file; do
+find . -type f -size +50M | while read file; do
   # 获取文件名并检查是否已经存在于.gitignore文件中
   filename="${file##*/}"
   if ! grep "$filename" .gitignore > /dev/null 2>&1 ; then

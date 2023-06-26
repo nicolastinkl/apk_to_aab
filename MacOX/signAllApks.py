@@ -115,6 +115,7 @@ for dbtype in subdirectories:
     apkpath = ""
     first_file = ""
     print(f"目錄： {directory}/{dbtype}/")
+    hasaabfile = 0
     for filename in os.listdir(f"{directory}/{dbtype}/"):
         if filename.endswith('.txt'):
             file_path = os.path.join(f"{directory}/{dbtype}/", filename)
@@ -130,6 +131,9 @@ for dbtype in subdirectories:
 
         if filename.endswith('.apk'):
             apkpath  = os.path.join(f"{directory}/{dbtype}/", filename)
+
+        if filename.endswith('.aab'):
+            hasaabfile = 1
 
     # keystoreContent = get_file_content(f"{directory}/{dbtype}/keyStoreDetails.txt")
 
@@ -150,7 +154,7 @@ for dbtype in subdirectories:
  
     print(RED + f"{first_file}"+ RESET) 
 
-    if Pwd is not None and aliases is not None and len(Pwd)>2:
+    if Pwd is not None and aliases is not None and len(Pwd)>2 and hasaabfile==0:
         print("拆分结果：",aliases,Pwd,organization)
 
             # exec: python.exe bundletool.py -i  ${input_path}  -o ${des_path} --keystore ${first_file}  --store_password BlackJackPoker1!@# --key_alias  BlackJackPoker  --key_password   BlackJackPoker1!@#
@@ -179,7 +183,7 @@ for dbtype in subdirectories:
 
         #  os.system
     else:
-        print(RED + f" Pwd is not None and aliases is not None.."+ RESET) 
+        print(RED + f" Pwd is not None and aliases is not None..或者存在aab文件"+ RESET) 
          
 
 

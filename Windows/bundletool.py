@@ -1,19 +1,5 @@
 # coding=utf-8
-"""
-Copyright (C) 2021 37手游安卓团队
 
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-   http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
-"""
 import datetime
 import json
 import re
@@ -55,18 +41,20 @@ def get_base_dir() -> str:
     return ""
 
 
-# APKTOOL_PATH = os.path.join(get_base_dir(), "tools", "apktool-2.5.2-fix.jar")
-APKTOOL_PATH = os.path.join(get_base_dir(), "tools", "apktool_2.7.0.jar")
+# APKTOOL_PATH = os.path.join(get_base_dir(), "tools", "apktool_2.5.0.jar")
+# APKTOOL_PATH = os.path.join(get_base_dir(), "tools", "apktool-aapt2-2.5.0.jar")
+APKTOOL_PATH = os.path.join(get_base_dir(), "tools", "apktool_2.7.0.jar") #我的版本
 AAPT2_PATH =  os.path.join(get_base_dir(), "tools", "aapt2", get_system(), "aapt2")
 print(AAPT2_PATH)
 # sys.exit(0)
 ANDROID_JAR_PATH = os.path.join(get_base_dir(), "tools", "android_33.jar")
-BUNDLETOOL_TOOL_PATH = os.path.join(get_base_dir(), "tools", "bundletool-all-1.6.1.jar")
+BUNDLETOOL_TOOL_PATH = os.path.join(get_base_dir(), "tools", "bundletool-all-1.15.1.jar") #bundletool-all-1.6.1.jar
 
-KEYSTORE = os.path.join(get_base_dir(), "tools", "luojian37.jks")
-STORE_PASSWORD = "luojian37"
-KEY_ALIAS = "luojian37"
-KEY_PASSWORD = "luojian37"
+
+KEYSTORE = os.path.join(get_base_dir(), "tools", "test.jks")
+STORE_PASSWORD = "test123"
+KEY_ALIAS = "test"
+KEY_PASSWORD = "test123"
 
 BUNDLE_MODULE_TEMPLATE_PATH = os.path.join(get_base_dir(), "tools", "pad_template")
 

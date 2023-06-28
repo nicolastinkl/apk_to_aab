@@ -117,7 +117,6 @@
 
 ### License
 
-build_aab_tool is released under the [Apache 2.0 license](LICENSE).
 
 ```
 Copyright 2021 

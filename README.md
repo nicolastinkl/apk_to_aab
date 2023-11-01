@@ -101,7 +101,7 @@
 * 建议windows下可以安装VSCode来使用Shell环境，配置好环境后需要重新VSCode
 
   ```shell
-  python.exe genfolder.py 111
+  python.exe genfolder.py output
   ```
 ![](images/Snipaste_2023-06-24_21-42-55.png)
 
@@ -109,7 +109,7 @@
 * 一键执行apk转化为aab文件
   
   ```shell
-  python.exe signAll.py 111
+  python.exe signAll.py output
   ```
 
 ![](images/Snipaste_2023-11-01_17-06-36.png)

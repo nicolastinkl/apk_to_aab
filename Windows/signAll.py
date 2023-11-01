@@ -96,23 +96,71 @@ for dbtype in dbtype_list:
             apkpath  = os.path.join(f"{directory}/{dbtype}/", filename)
 
     # keystoreContent = get_file_content(f"{directory}/{dbtype}/keyStoreDetails.txt")
+    if keystoreContent.find("-") != -1:
 
-    if keystoreContent:
-        print(RED + f"{keystoreContent}"+ RESET) 
+        if keystoreContent:
+            print(RED + f"{keystoreContent}"+ RESET) 
 
-        for line in keystoreContent.split("\n"):
-            key, value = line.split("-")
-            if key.strip() == "Alias":
-                aliases = value.strip()
-            if key.strip() == "Password":
-                Pwd = value.strip()
-            if key.strip() == "Pwd":
-                Pwd = value.strip()
-            if key.strip() == "organization":
-                organization = value.strip()                
-                #aliases[key] = value 
- 
+            for line in keystoreContent.split("\n"):
+                key, value = line.split("-")
+                if key.strip() == "Alias":
+                    aliases = value.strip()
+                if key.strip() == "Password":
+                    Pwd = value.strip()
+                if key.strip() == "Pwd":
+                    Pwd = value.strip()
+                if key.strip() == "organization":
+                    organization = value.strip()                
+                    #aliases[key] = value 
+    
+    else:
+        # 读取txt密码 然后取alias值
+        keystore_password  = keystoreContent
+        Pwd = keystore_password
+        keystore_file = first_file
+        # 定义 keytool 命令及参数
+        Pwd = keystore_password
+        # 构建 keytool 命令
+        command = f'keytool -list -v -keystore "{keystore_file}" -storepass "{keystore_password}"'
+
+        # 执行命令并获取输出
+        process = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True)
+        output, error = process.communicate()
+        output_str = output.decode('cp936')
+        # print(output_str)
+        
+        # 解析输出以获取 alias 字符串
+        alias_index = output_str.find("Alias:")
+        if alias_index != -1:
+            alias_end_index = output_str.find("\n", alias_index)
+            alias_string = output_str[alias_index:alias_end_index]
+            aliasnamestring = alias_string.split(":")[1].strip()
+            print(f"Alias: <{aliasnamestring}>")
+            if len(aliasnamestring)>0 :
+                aliases = aliasnamestring
+        else:
+            print("Alias not found")
+
+        # 解析输出以获取 alias 字符串
+        alias_index = output_str.find("别名:")
+        if alias_index != -1:
+            alias_end_index = output_str.find("\n", alias_index)
+            alias_string = output_str[alias_index:alias_end_index]
+            aliasnamestring = alias_string.split(":")[1].strip()
+            print(f"别名: <{aliasnamestring}>")
+            if len(aliasnamestring)>0 :
+                aliases = aliasnamestring
+        else:
+            print("别名 not found")
+
+
+        # 检查错误信息
+        if process.returncode != 0:
+            print(f"Error: {error.decode('cp936')}")
+
+
     print(RED + f"{first_file}"+ RESET) 
+ 
 
     if Pwd is not None and aliases is not None and len(Pwd)>2:
         print("拆分结果：",aliases,Pwd,organization)

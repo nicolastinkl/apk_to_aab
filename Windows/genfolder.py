@@ -29,6 +29,7 @@ for aab_file in aab_files:
     p = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True)
     output, err = p.communicate()
 
+    print(err)
     # 解析输出获取package
     package = ''
     output_lines = output.decode('utf-8').split('\n')

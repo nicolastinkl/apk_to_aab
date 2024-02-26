@@ -108,8 +108,7 @@ for dbtype in dbtype_list:
         if filename.endswith('.jks'):
             first_file  = os.path.join(f"{keystorePath}/", filename)
 
-
-    # keystoreContent = get_file_content(f"{keystorePath}/keyStoreDetails.txt")
+ 
     if keystoreContent.find("-") != -1:
 
         if keystoreContent:
@@ -194,11 +193,9 @@ for dbtype in dbtype_list:
         newfirst_file = first_file.replace(' ', f'_')
         newfirst_file = newfirst_file.replace('(', f'_')
         newfirst_file = newfirst_file.replace(')', f'_')
-        os.renames(first_file, newfirst_file)
-            # exec: python.exe bundletool.py -i  ${input_path}  -o ${des_path} --keystore ${first_file}  --store_password BlackJackPoker1!@# --key_alias  BlackJackPoker  --key_password   BlackJackPoker1!@#
+        os.renames(first_file, newfirst_file) 
         time_now = datetime.now()
-        current_time = time_now.strftime("%H_%M_%S")
-        #python build_aab.py --path 'abb file path' --jks_path 'jks file path' --password 'your jks password' --alias 'your jks alias' 
+        current_time = time_now.strftime("%H_%M_%S") 
 
         signstring = (f"python.exe build_aab.py --path {aabpath} --jks_path  {newfirst_file} --password  {Pwd}  --alias  {aliases} ")
         print(GREEN + signstring + RESET)

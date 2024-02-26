@@ -133,7 +133,7 @@ if __name__ == '__main__':
     zip_path = apks_path.replace('.apks', f'{ time.strftime("%m_%d_%H_%M_%S", time.localtime())}.zip')
     os.renames(apks_path, zip_path)
     zFile = zipfile.ZipFile(zip_path, "r")
-    zip_apk_path = dir_name + os.sep + 'apk'
+    zip_apk_path = dir_name + os.sep + 'signed'
     
     if os.path.exists(zip_apk_path):
         shutil.rmtree(zip_apk_path)
@@ -147,14 +147,17 @@ if __name__ == '__main__':
     zFile.close()
     os.remove(zip_path)
 
-
     # 然后再次签名从apk to aab
     if rename is not None:
         apkpath = rename
-        signstring = (f"python.exe bundletool.py -i {apkpath} -o {apkpath}_siged.aab  --keystore {args.jks_path}  --store_password {args.password} --key_alias  {args.alias}  --key_password  {args.password}")
+        signstring = (f"python.exe bundletool.py -i {apkpath} -o {apkpath}_signed.aab  --keystore {args.jks_path}  --store_password {args.password} --key_alias  {args.alias}  --key_password  {args.password}")
         
         print(signstring)
         try:  
             subprocess.run(signstring, shell=True, check=True)
         except Exception as e:
             print("error ",e)
+
+
+        #删除旧的aab_path
+        os.remove(aab_path)        

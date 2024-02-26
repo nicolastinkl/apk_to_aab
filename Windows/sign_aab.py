@@ -129,7 +129,9 @@ for dbtype in dbtype_list:
     
     else:
         # 读取txt密码 然后取alias值
-        keystore_password  = keystoreContent
+        keystore_password  = keystoreContent.replace(" ","")
+        keystore_password  = keystore_password.replace("\n","")
+        print(f"<{keystore_password}>")        
         Pwd = keystore_password
         keystore_file = first_file
         # 定义 keytool 命令及参数

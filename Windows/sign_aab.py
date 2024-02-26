@@ -44,7 +44,7 @@ RESET = '\033[0m'
 directory = sys.argv[1]
 # platform = sys.argv[2]
 # 当前目录
-current_dir = f"{os.getcwd()}\{directory}"
+current_dir = directory # f"{os.getcwd()}\{directory}"
 print(current_dir )
 directory = current_dir
 dbtype_list = os.listdir(current_dir) 
@@ -76,26 +76,31 @@ for dbtype in dbtype_list:
     organization = ""
     
     keystoreContent = ""
-    apkpath = ""
+    aabpath = ""
     first_file = ""
-    print(f"目錄： {directory}/{dbtype}/")
-    for filename in os.listdir(f"{directory}/{dbtype}/"):
+    keystorePath = f"{directory}/{dbtype}/Keystore"
+    print(f"目录： {keystorePath}")
+
+    for filename in os.listdir(f"{directory}/{dbtype}"):
+        if filename.endswith('.aab'):
+            aabpath  = os.path.join(f"{directory}/{dbtype}/", filename)
+
+    for filename in os.listdir(f"{keystorePath}"):
+        print(filename)
         if filename.endswith('.txt'):
-            file_path = os.path.join(f"{directory}/{dbtype}/", filename)
+            file_path = os.path.join(f"{keystorePath}/", filename)
             with open(file_path, 'r') as f:
                 # 读取文件内容
                 content = f.read()
                 keystoreContent = content
         if filename.endswith('.keystore'):
-            first_file  = os.path.join(f"{directory}/{dbtype}/", filename)
+            first_file  = os.path.join(f"{keystorePath}/", filename)
 
         if filename.endswith('.jks'):
-            first_file  = os.path.join(f"{directory}/{dbtype}/", filename)
+            first_file  = os.path.join(f"{keystorePath}/", filename)
 
-        if filename.endswith('.apk'):
-            apkpath  = os.path.join(f"{directory}/{dbtype}/", filename)
 
-    # keystoreContent = get_file_content(f"{directory}/{dbtype}/keyStoreDetails.txt")
+    # keystoreContent = get_file_content(f"{keystorePath}/keyStoreDetails.txt")
     if keystoreContent.find("-") != -1:
 
         if keystoreContent:
@@ -153,6 +158,17 @@ for dbtype in dbtype_list:
         else:
             print("别名 not found")
 
+        alias_index = output_str.find("Alias name:")
+        if alias_index != -1:
+            alias_end_index = output_str.find("\n", alias_index)
+            alias_string = output_str[alias_index:alias_end_index]
+            aliasnamestring = alias_string.split(":")[1].strip()
+            print(f"别名: <{aliasnamestring}>")
+            if len(aliasnamestring)>0 :
+                aliases = aliasnamestring
+        else:
+            print("别名 not found")
+
 
         # 检查错误信息
         if process.returncode != 0:
@@ -160,48 +176,23 @@ for dbtype in dbtype_list:
 
 
     print(RED + f"{first_file}"+ RESET) 
- 
 
-    if Pwd is not None and aliases is not None and len(Pwd)>2:
+    if Pwd is not None and len(aliases)>0 and len(Pwd)>2:
         print("拆分结果：",aliases,Pwd,organization)
 
             # exec: python.exe bundletool.py -i  ${input_path}  -o ${des_path} --keystore ${first_file}  --store_password BlackJackPoker1!@# --key_alias  BlackJackPoker  --key_password   BlackJackPoker1!@#
         time_now = datetime.now()
         current_time = time_now.strftime("%H_%M_%S")
-        
-        signstring = (f"python.exe bundletool.py -i {apkpath} -o {apkpath}_{current_time}.aab  --keystore {first_file}  --store_password {Pwd} --key_alias  {aliases}  --key_password  {Pwd}")
+        #python build_aab.py --path 'abb file path' --jks_path 'jks file path' --password 'your jks password' --alias 'your jks alias' 
+
+        signstring = (f"python.exe build_aab.py --path {aabpath} --jks_path  {first_file} --password  {Pwd}  --alias  {aliases} ")
         print(GREEN + signstring + RESET)
         # status, message = execute_cmd(signstring)
 
-        scriptsss.append(signstring) 
-
-        # # 启动子进程执行脚本
-        # process = subprocess.Popen(["python.exe", signstring])
-        # # 等待子进程完成
-        # process.wait()
-        # # 打印脚本执行完成信息
-        # print(f"{signstring} 执行完成")
-
-        #  os.system
+        # scriptsss.append(signstring) 
+ 
     else:
         print(RED + f" Pwd is not None and aliases is not None.."+ RESET) 
-         
-
-
-
-
-# 创建线程池
-# with ThreadPoolExecutor(max_workers=len(scriptsss)) as executor:
-#     # 提交子进程任务
-#     #  status, message = execute_cmd(signstring)
-#     subprocess.run(cmd, shell=True, check=True)
-
-    # futures = [executor.submit(subprocess.call, ["python.exe", script]) for script in scriptsss]
-
-# 等待所有子进程完成
-# for future in futures:
-#     future.result()
-
 
 
 # 执行命令并等待完成

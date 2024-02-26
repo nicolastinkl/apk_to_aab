@@ -1,4 +1,4 @@
-# apk转化aab格式
+# apk转化aab and aab转化aab
  
 
 ### Mac OX 使用流程
@@ -109,12 +109,23 @@
 * 一键执行apk转化为aab文件
   
   ```shell
-  python.exe signAll.py output
+  python.exe sign_apk.py output
   ```
+
+
+* 一键执行aab转化为aab签名文件
+  
+  ```shell
+  python.exe sign_aab.py output
+  ```
+
+![](images/Snipaste_2024-02-26_21-40-31.png)
 
 ![](images/Snipaste_2023-11-01_17-06-36.png)
 
 ![](images/Snipaste_2023-06-24_21-44-52.png)
+
+
 
 ### License
 

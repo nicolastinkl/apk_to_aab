@@ -80,6 +80,15 @@ for dbtype in dbtype_list:
     first_file = ""
     keystorePath = f"{directory}/{dbtype}/Keystore"
     print(f"目录： {keystorePath}")
+    # 判断是否有签名目录
+    # 
+    if os.path.exists(f"{directory}/{dbtype}"):
+        print("继续...")
+    
+       
+    if os.path.isfile(f"{directory}/{dbtype}"):
+        print(RED + f"{directory}/{dbtype} 目录不存在"+ RESET) 
+        sys.exit(0)
 
     for filename in os.listdir(f"{directory}/{dbtype}"):
         if filename.endswith('.aab'):
@@ -180,16 +189,20 @@ for dbtype in dbtype_list:
     if Pwd is not None and len(aliases)>0 and len(Pwd)>2:
         print("拆分结果：",aliases,Pwd,organization)
 
+        newfirst_file = first_file.replace(' ', f'_')
+        newfirst_file = newfirst_file.replace('(', f'_')
+        newfirst_file = newfirst_file.replace(')', f'_')
+        os.renames(first_file, newfirst_file)
             # exec: python.exe bundletool.py -i  ${input_path}  -o ${des_path} --keystore ${first_file}  --store_password BlackJackPoker1!@# --key_alias  BlackJackPoker  --key_password   BlackJackPoker1!@#
         time_now = datetime.now()
         current_time = time_now.strftime("%H_%M_%S")
         #python build_aab.py --path 'abb file path' --jks_path 'jks file path' --password 'your jks password' --alias 'your jks alias' 
 
-        signstring = (f"python.exe build_aab.py --path {aabpath} --jks_path  {first_file} --password  {Pwd}  --alias  {aliases} ")
+        signstring = (f"python.exe build_aab.py --path {aabpath} --jks_path  {newfirst_file} --password  {Pwd}  --alias  {aliases} ")
         print(GREEN + signstring + RESET)
         # status, message = execute_cmd(signstring)
 
-        # scriptsss.append(signstring) 
+        scriptsss.append(signstring) 
  
     else:
         print(RED + f" Pwd is not None and aliases is not None.."+ RESET) 

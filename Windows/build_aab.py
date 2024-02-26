@@ -123,26 +123,38 @@ if __name__ == '__main__':
     password = args.password
 
     aab_path = args.path
-    print('aab_path', aab_path)
+    # print('aab_path', aab_path)
     dir_name = os.path.dirname(aab_path)
 
     apks_path = dir_name + os.sep + os.path.basename(aab_path).replace('.aab', '.apks')
-    query_by_apksigner(aab_path, aab_path)
+    # query_by_apksigner(aab_path, aab_path)
     query_by_java_jar(bundletool,
                       'build-apks --bundle=' + aab_path + ' --output=' + apks_path + ' --mode=universal --ks=' + jks_path + ' --ks-pass=pass:' + password + ' --ks-key-alias=' + args.alias + ' --key-pass=pass:' + password)
-    zip_path = apks_path.replace('.apks', '.zip')
+    zip_path = apks_path.replace('.apks', f'{ time.strftime("%m_%d_%H_%M_%S", time.localtime())}.zip')
     os.renames(apks_path, zip_path)
     zFile = zipfile.ZipFile(zip_path, "r")
     zip_apk_path = dir_name + os.sep + 'apk'
-    os.remove(zip_path)
+    
     if os.path.exists(zip_apk_path):
         shutil.rmtree(zip_apk_path)
     for fileM in zFile.namelist():
         zFile.extract(fileM, zip_apk_path)
-
-    rename = zip_apk_path + os.sep + time.strftime("%Y_%m_%d_%H_%M_%S", time.localtime()) + '_' + os.path.basename(apks_path).replace(
-        '.apks', '.apk')
-
+    
+    rename = zip_apk_path + os.sep + os.path.basename(apks_path).replace(
+        '.apks', '.apk')    
     os.renames(zip_apk_path + os.sep + 'universal.apk', rename)
     print("output apk", rename)
     zFile.close()
+    os.remove(zip_path)
+
+
+    # 然后再次签名从apk to aab
+    if rename is not None:
+        apkpath = rename
+        signstring = (f"python.exe bundletool.py -i {apkpath} -o {apkpath}_siged.aab  --keystore {args.jks_path}  --store_password {args.password} --key_alias  {args.alias}  --key_password  {args.password}")
+        
+        print(signstring)
+        try:  
+            subprocess.run(signstring, shell=True, check=True)
+        except Exception as e:
+            print("error ",e)

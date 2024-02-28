@@ -203,7 +203,7 @@ for dbtype in dbtype_list:
         current_time = time_now.strftime("%H_%M_%S")
         print("apkpath: ",apkpath)
         if os.path.isfile(apkpath): 
-            signstring = (f"python.exe bundletool.py -i {apkpath} -o {apkpath}_{current_time}.aab  --keystore {first_file}  --store_password {Pwd} --key_alias  {aliases}  --key_password  {Pwd}")
+            signstring = (f"python.exe bundletool.py -i {apkpath} -o {apkpath}__signed.aab  --keystore {first_file}  --store_password {Pwd} --key_alias  {aliases}  --key_password  {Pwd}")
             print(GREEN + signstring + RESET)
             # status, message = execute_cmd(signstring)
 

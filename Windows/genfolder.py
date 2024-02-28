@@ -12,9 +12,9 @@ import hashlib
 directory = sys.argv[1]
 # platform = sys.argv[2]
 # 当前目录
-current_dir = f"{os.getcwd()}\{directory}"
-print(current_dir )
-directory = current_dir
+# current_dir = f"{os.getcwd()}\{directory}"
+# print(current_dir )
+current_dir = directory
 dbtype_list = os.listdir(current_dir) 
 # 当前目录
 # current_dir = os.getcwd()

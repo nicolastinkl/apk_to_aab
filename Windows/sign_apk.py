@@ -44,15 +44,16 @@ RESET = '\033[0m'
 directory = sys.argv[1]
 # platform = sys.argv[2]
 # 当前目录
-current_dir = f"{os.getcwd()}\{directory}"
-print(current_dir )
-directory = current_dir
-dbtype_list = os.listdir(current_dir) 
+# current_dir = f"{os.getcwd()}\{directory}"
+# print(current_dir )
+# current_dir = f"{directory}\\Keystore\\"
+current_dir = directory
+dbtype_list = os.listdir(directory) 
 for dbtype in dbtype_list: 
     if os.path.isfile(os.path.join(current_dir,dbtype)): 
         print("dbtype: ",dbtype)
         # 获取签名文件，验证签名 
-        # ///Design/KeyStore/keyStoreDetails.txt
+        # \\\\\\Design\\KeyStore\\keyStoreDetails.txt
         print("正在检查签名文件")
         dbtype_list.remove(dbtype)
     # else:
@@ -67,35 +68,54 @@ def execute_cmd(cmd):
     return status, ""
 
 # 定义脚本列表
+
+# for filename in dbtype_list:        
+#     print("filename：",filename)
+#     if filename.endswith('.apk'):
+#         apkpath = f"{directory}\\{dbtype}\\{filename}"
+# sys.exit(0)
 scriptsss = []
-
+apkpath = ""
 for dbtype in dbtype_list: 
-
+    for filename2 in os.listdir(f"{directory}\\{dbtype}\\"):
+        if filename2.endswith('.apk'):
+            apkpath = f"{directory}\\{dbtype}\\{filename2}"
     aliases = ""
     Pwd = ""
     organization = ""
     
     keystoreContent = ""
-    apkpath = ""
+    
     first_file = ""
-    print(f"目錄： {directory}/{dbtype}/")
-    for filename in os.listdir(f"{directory}/{dbtype}/"):
+    print(f"签名目录： {directory}\\{dbtype}\\***\\")
+    SignFilePath = ""
+    if os.path.exists(f"{directory}\\{dbtype}\\Keystore\\"):
+        SignFilePath = f"{directory}\\{dbtype}\\Keystore\\"
+    if os.path.exists(f"{directory}\\{dbtype}\\keystore\\"):
+        SignFilePath = f"{directory}\\{dbtype}\\keystore\\"
+    if os.path.exists(f"{directory}\\{dbtype}\\Key\\"):
+        SignFilePath = f"{directory}\\{dbtype}\\Key\\"        
+    if os.path.exists(f"{directory}\\{dbtype}\\key\\"):
+        SignFilePath = f"{directory}\\{dbtype}\\key\\"    
+    if len(SignFilePath) <= 0 :
+        print(f"签名目录： 未找到")
+        sys.exit(0)
+    for filename in os.listdir(SignFilePath):
         if filename.endswith('.txt'):
-            file_path = os.path.join(f"{directory}/{dbtype}/", filename)
+            file_path = os.path.join(SignFilePath, filename)
             with open(file_path, 'r') as f:
                 # 读取文件内容
                 content = f.read()
                 keystoreContent = content
         if filename.endswith('.keystore'):
-            first_file  = os.path.join(f"{directory}/{dbtype}/", filename)
+            first_file  = os.path.join(SignFilePath, filename)
 
         if filename.endswith('.jks'):
-            first_file  = os.path.join(f"{directory}/{dbtype}/", filename)
+            first_file  = os.path.join(SignFilePath, filename)
 
-        if filename.endswith('.apk'):
-            apkpath  = os.path.join(f"{directory}/{dbtype}/", filename)
+       
 
-    # keystoreContent = get_file_content(f"{directory}/{dbtype}/keyStoreDetails.txt")
+    # keystoreContent = get_file_content(f"{directory}\\{dbtype}\\keyStoreDetails.txt")
     if keystoreContent.find("-") != -1:
 
         if keystoreContent:
@@ -115,7 +135,10 @@ for dbtype in dbtype_list:
     
     else:
         # 读取txt密码 然后取alias值
-        keystore_password  = keystoreContent
+        # keystore_password  = keystoreContent
+        keystore_password  = keystoreContent.replace(" ","")
+        keystore_password  = keystore_password.replace("\n","")
+        print(f"<{keystore_password}>")    
         Pwd = keystore_password
         keystore_file = first_file
         # 定义 keytool 命令及参数
@@ -158,11 +181,11 @@ for dbtype in dbtype_list:
             alias_end_index = output_str.find("\n", alias_index)
             alias_string = output_str[alias_index:alias_end_index]
             aliasnamestring = alias_string.split(":")[1].strip()
-            print(f"别名: <{aliasnamestring}>")
+            print(f"Alias name: <{aliasnamestring}>")
             if len(aliasnamestring)>0 :
                 aliases = aliasnamestring
         else:
-            print("别名 not found")
+            print("Alias name not found")
 
 
         # 检查错误信息
@@ -178,12 +201,13 @@ for dbtype in dbtype_list:
             # exec: python.exe bundletool.py -i  ${input_path}  -o ${des_path} --keystore ${first_file}  --store_password BlackJackPoker1!@# --key_alias  BlackJackPoker  --key_password   BlackJackPoker1!@#
         time_now = datetime.now()
         current_time = time_now.strftime("%H_%M_%S")
-        
-        signstring = (f"python.exe bundletool.py -i {apkpath} -o {apkpath}_{current_time}.aab  --keystore {first_file}  --store_password {Pwd} --key_alias  {aliases}  --key_password  {Pwd}")
-        print(GREEN + signstring + RESET)
-        # status, message = execute_cmd(signstring)
+        print("apkpath: ",apkpath)
+        if os.path.isfile(apkpath): 
+            signstring = (f"python.exe bundletool.py -i {apkpath} -o {apkpath}_{current_time}.aab  --keystore {first_file}  --store_password {Pwd} --key_alias  {aliases}  --key_password  {Pwd}")
+            print(GREEN + signstring + RESET)
+            # status, message = execute_cmd(signstring)
 
-        scriptsss.append(signstring) 
+            scriptsss.append(signstring) 
  
     else:
         print(RED + f" Pwd is not None and aliases is not None.."+ RESET) 

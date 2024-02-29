@@ -69,7 +69,7 @@
 *  下载后的apk一键生成子目录，根据包名设置
 
     ```shell
-    python3.11 genApkfolder.py output
+    python.exe gen_apk_folder.py D:\\apks
     ```
 
 ![](images/Snipaste_2023-06-24_21-23-46.png)
@@ -77,7 +77,7 @@
 *  但是输入脚本太过于复杂，所以添加了一个自动查找签名识别证书的脚本，一键签名
 
     ```shell
-    python3.11 signAllApks.py output
+    python3.11 sign_apks.py D:\\apks
     ```
 
 ![](images/Snipaste_2023-06-24_21-24-32.png) 
@@ -101,7 +101,7 @@
 * 建议windows下可以安装VSCode来使用Shell环境，配置好环境后需要重新VSCode
 
   ```shell
-  python.exe genfolder.py output
+  python.exe gen_apk_folder.py D:\\xxxx
   ```
 ![](images/Snipaste_2023-06-24_21-42-55.png)
 
@@ -109,14 +109,14 @@
 * 一键执行apk转化为aab文件
   
   ```shell
-  python.exe sign_apk.py output
+  python.exe sign_apks.py D:\\output
   ```
 
 
 * 一键执行aab转化为aab签名文件
   
   ```shell
-  python.exe sign_aab.py output
+  python.exe sign_aabs.py D:\\output
   ```
 
 ![](images/Snipaste_2024-02-26_21-40-31.png)

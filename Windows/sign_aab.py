@@ -109,13 +109,13 @@ for dbtype in dbtype_list:
             first_file  = os.path.join(f"{keystorePath}/", filename)
 
  
-    if keystoreContent.find("-") != -1:
+    if keystoreContent.find(":") != -1:
 
         if keystoreContent:
             print(RED + f"{keystoreContent}"+ RESET) 
 
             for line in keystoreContent.split("\n"):
-                key, value = line.split("-")
+                key, value = line.split(":")
                 if key.strip() == "Alias":
                     aliases = value.strip()
                 if key.strip() == "Password":

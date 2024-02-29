@@ -69,7 +69,7 @@
 *  下载后的apk一键生成子目录，根据包名设置
 
     ```shell
-    python.exe gen_apk_folder.py D:\\apks
+    python gen_apk_folder.py D:\\apks
     ```
 
 ![](images/Snipaste_2023-06-24_21-23-46.png)
@@ -77,7 +77,7 @@
 *  但是输入脚本太过于复杂，所以添加了一个自动查找签名识别证书的脚本，一键签名
 
     ```shell
-    python3.11 sign_apks.py D:\\apks
+    python sign_apks.py D:\\apks
     ```
 
 ![](images/Snipaste_2023-06-24_21-24-32.png) 
@@ -88,7 +88,7 @@
 
 ### Windows  使用流程
 
-* 运行环境 python3.10 
+* 运行环境 python3.10+
 * 新版本没有zip环境 所以需要添加环境变量配置 
 * 安装需要的环境
 

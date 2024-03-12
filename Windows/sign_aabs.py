@@ -1,15 +1,13 @@
-
 import os
 import glob
 import subprocess
- 
+
 import sys
 import shutil
 import random
-import hashlib 
+import hashlib
 from datetime import datetime
 from concurrent.futures import ThreadPoolExecutor
-
 
 
 def get_file_content(file_name):
@@ -25,17 +23,18 @@ def get_file_content(file_name):
         return None
 
     # 读取文件内容
-    with open(file_path, 'r') as file:
+    with open(file_path, "r") as file:
         content = file.read()
 
     return content
 
+
 # 定义 ANSI 转义序列
-RED = '\033[91m'
-GREEN = '\033[92m'
-YELLOW = '\033[93m'
-BLUE = '\033[94m'
-RESET = '\033[0m'
+RED = "\033[91m"
+GREEN = "\033[92m"
+YELLOW = "\033[93m"
+BLUE = "\033[94m"
+RESET = "\033[0m"
 # 输出彩色文本
 
 # 当前目录
@@ -44,21 +43,21 @@ RESET = '\033[0m'
 directory = sys.argv[1]
 # platform = sys.argv[2]
 # 当前目录
-current_dir = directory # f"{os.getcwd()}\{directory}"
-print(current_dir )
+current_dir = directory  # f"{os.getcwd()}\{directory}"
+print(current_dir)
 directory = current_dir
-dbtype_list = os.listdir(current_dir) 
-for dbtype in dbtype_list: 
-    if os.path.isfile(os.path.join(current_dir,dbtype)): 
-        print("dbtype: ",dbtype)
-        # 获取签名文件，验证签名 
+dbtype_list = os.listdir(current_dir)
+for dbtype in dbtype_list:
+    if os.path.isfile(os.path.join(current_dir, dbtype)):
+        print("dbtype: ", dbtype)
+        # 获取签名文件，验证签名
         # ///Design/KeyStore/keyStoreDetails.txt
         print("正在检查签名文件")
         dbtype_list.remove(dbtype)
     # else:
-        # dbtype_list.remove(dbtype)
+    # dbtype_list.remove(dbtype)
 
-print (dbtype_list)
+print(dbtype_list)
 
 
 def execute_cmd(cmd):
@@ -66,71 +65,71 @@ def execute_cmd(cmd):
     status = os.system(cmd)
     return status, ""
 
+
 # 定义脚本列表
 scriptsss = []
 
-for dbtype in dbtype_list: 
+for dbtype in dbtype_list:
 
     aliases = ""
     Pwd = ""
     organization = ""
-    
+
     keystoreContent = ""
     aabpath = ""
     first_file = ""
     keystorePath = f"{directory}/{dbtype}/Keystore"
     print(f"目录： {keystorePath}")
     # 判断是否有签名目录
-    # 
+    #
     if os.path.exists(f"{directory}/{dbtype}"):
         print("继续...")
-    
-       
+
     if os.path.isfile(f"{directory}/{dbtype}"):
-        print(RED + f"{directory}/{dbtype} 目录不存在"+ RESET) 
+        print(RED + f"{directory}/{dbtype} 目录不存在" + RESET)
         sys.exit(0)
 
     for filename in os.listdir(f"{directory}/{dbtype}"):
-        if filename.endswith('.aab'):
-            aabpath  = os.path.join(f"{directory}/{dbtype}/", filename)
+        if filename.endswith(".aab"):
+            aabpath = os.path.join(f"{directory}/{dbtype}/", filename)
 
     for filename in os.listdir(f"{keystorePath}"):
         print(filename)
-        if filename.endswith('.txt'):
+        if filename.endswith(".txt"):
             file_path = os.path.join(f"{keystorePath}/", filename)
-            with open(file_path, 'r') as f:
+            with open(file_path, "r") as f:
                 # 读取文件内容
                 content = f.read()
                 keystoreContent = content
-        if filename.endswith('.keystore'):
-            first_file  = os.path.join(f"{keystorePath}/", filename)
+        if filename.endswith(".keystore"):
+            first_file = os.path.join(f"{keystorePath}/", filename)
 
-        if filename.endswith('.jks'):
-            first_file  = os.path.join(f"{keystorePath}/", filename)
+        if filename.endswith(".jks"):
+            first_file = os.path.join(f"{keystorePath}/", filename)
 
- 
     if keystoreContent.find(":") != -1:
 
         if keystoreContent:
-            print(RED + f"{keystoreContent}"+ RESET) 
+            print(RED + f"{keystoreContent}" + RESET)
 
             for line in keystoreContent.split("\n"):
-                key, value = line.split(":")
-                if key.strip() == "Alias":
-                    aliases = value.strip()
-                if key.strip() == "Password":
-                    Pwd = value.strip()
-                if key.strip() == "Pwd":
-                    Pwd = value.strip()
-                if key.strip() == "organization":
-                    organization = value.strip()                
-                    #aliases[key] = value 
-    
+                if len(line) > 0:
+                    key, value = line.split(":")
+                    if key.strip() == "Alias":
+                        aliases = value.strip()
+                    if key.strip() == "Password":
+                        Pwd = value.strip()
+                    if key.strip() == "Pwd":
+                        Pwd = value.strip()
+                    if key.strip() == "organization":
+                        organization = value.strip()
+                        # aliases[key] = value
+
     else:
         # 读取txt密码 然后取alias值
-        keystore_password  = keystoreContent.replace(" ","")
-        keystore_password  = keystore_password.replace("\n","")
-        print(f"<{keystore_password}>")        
+        keystore_password = keystoreContent.replace(" ", "")
+        keystore_password = keystore_password.replace("\n", "")
+        print(f"<{keystore_password}>")
         Pwd = keystore_password
         keystore_file = first_file
         # 定义 keytool 命令及参数
@@ -139,11 +138,13 @@ for dbtype in dbtype_list:
         command = f'keytool -list -v -keystore "{keystore_file}" -storepass "{keystore_password}"'
 
         # 执行命令并获取输出
-        process = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True)
+        process = subprocess.Popen(
+            command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True
+        )
         output, error = process.communicate()
-        output_str = output.decode('cp936')
+        output_str = output.decode("cp936")
         # print(output_str)
-        
+
         # 解析输出以获取 alias 字符串
         alias_index = output_str.find("Alias:")
         if alias_index != -1:
@@ -151,7 +152,7 @@ for dbtype in dbtype_list:
             alias_string = output_str[alias_index:alias_end_index]
             aliasnamestring = alias_string.split(":")[1].strip()
             print(f"Alias: <{aliasnamestring}>")
-            if len(aliasnamestring)>0 :
+            if len(aliasnamestring) > 0:
                 aliases = aliasnamestring
         else:
             print("Alias not found")
@@ -163,7 +164,7 @@ for dbtype in dbtype_list:
             alias_string = output_str[alias_index:alias_end_index]
             aliasnamestring = alias_string.split(":")[1].strip()
             print(f"别名: <{aliasnamestring}>")
-            if len(aliasnamestring)>0 :
+            if len(aliasnamestring) > 0:
                 aliases = aliasnamestring
         else:
             print("别名 not found")
@@ -174,37 +175,35 @@ for dbtype in dbtype_list:
             alias_string = output_str[alias_index:alias_end_index]
             aliasnamestring = alias_string.split(":")[1].strip()
             print(f"别名: <{aliasnamestring}>")
-            if len(aliasnamestring)>0 :
+            if len(aliasnamestring) > 0:
                 aliases = aliasnamestring
         else:
             print("别名 not found")
-
 
         # 检查错误信息
         if process.returncode != 0:
             print(f"Error: {error.decode('cp936')}")
 
+    print(RED + f"{first_file}" + RESET)
 
-    print(RED + f"{first_file}"+ RESET) 
+    if Pwd is not None and len(aliases) > 0 and len(Pwd) > 2:
+        print("拆分结果：", aliases, Pwd, organization)
 
-    if Pwd is not None and len(aliases)>0 and len(Pwd)>2:
-        print("拆分结果：",aliases,Pwd,organization)
-
-        newfirst_file = first_file.replace(' ', f'_')
-        newfirst_file = newfirst_file.replace('(', f'_')
-        newfirst_file = newfirst_file.replace(')', f'_')
-        os.renames(first_file, newfirst_file) 
+        newfirst_file = first_file.replace(" ", f"_")
+        newfirst_file = newfirst_file.replace("(", f"_")
+        newfirst_file = newfirst_file.replace(")", f"_")
+        os.renames(first_file, newfirst_file)
         time_now = datetime.now()
-        current_time = time_now.strftime("%H_%M_%S") 
+        current_time = time_now.strftime("%H_%M_%S")
 
-        signstring = (f"python.exe build_aab.py --path {aabpath} --jks_path  {newfirst_file} --password  {Pwd}  --alias  {aliases} ")
+        signstring = f"python.exe build_aab.py --path {aabpath} --jks_path  {newfirst_file} --password  {Pwd}  --alias  {aliases} "
         print(GREEN + signstring + RESET)
         # status, message = execute_cmd(signstring)
 
-        scriptsss.append(signstring) 
- 
+        scriptsss.append(signstring)
+
     else:
-        print(RED + f" Pwd is not None and aliases is not None.."+ RESET) 
+        print(RED + f" Pwd is not None and aliases is not None.." + RESET)
 
 
 # 执行命令并等待完成
@@ -212,12 +211,12 @@ index = 1
 for cmd in scriptsss:
     try:
         print(cmd)
-        print("\n"+f"{index}"+"\n")
+        print("\n" + f"{index}" + "\n")
         index = index + 1
         subprocess.run(cmd, shell=True, check=True)
     except Exception as e:
-        print("error ",e)
+        print("error ", e)
     continue
 
 # 所有脚本执行完成后继续其他操作
-print("所有脚本执行完成") 
+print("所有脚本执行完成")

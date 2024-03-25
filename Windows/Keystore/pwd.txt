@@ -1,0 +1,2 @@
+Alias:colorfulmouseclock
+Password:colorfulmouseclock

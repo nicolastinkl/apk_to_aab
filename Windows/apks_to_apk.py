@@ -25,11 +25,7 @@ else:
 
 
 def print_log(message):
-    if global_print_fun:
-        global_print_fun(message)
-    else:
-        print(message)
-    pass
+    print(message)
 
 
 def get_base_dir() -> str:
@@ -55,23 +51,31 @@ BUNDLETOOL_TOOL_PATH = os.path.join(
 
 # # 获取目录名和平台参数
 apksPath = sys.argv[1]
-signstring = (
-    f"{BUNDLETOOL_TOOL_PATH} --bundle='{apksPath}' --output='{apksPath}-output'"
-)
-print(signstring)
+signstring = f"{BUNDLETOOL_TOOL_PATH} --bundle='{apksPath}' --output="
 
+
+# 获取当前脚本所在目录
+script_dir = os.path.dirname(os.path.abspath(__file__))
+
+print(script_dir)
 cmd = [
+    "java",
+    "-jar",
     BUNDLETOOL_TOOL_PATH,
-    "extract-apks",
-    "--bundle=",
-    apksPath,
-    "--output=",
-    apksPath + "_path",
+    "build-apks",
+    f"--bundle='{apksPath}'",
+    f"--output='{apksPath}-output'",
+    f"--ks='{script_dir}\\Keystore\\keystore.jks'",
+    f"--ks-pass=pass:colorfulmouseclock",
+    "--ks-key-alias=colorfulmouseclock",
+    f"--key-pass=pass:colorfulmouseclock",
 ]
+
+
 p = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True)
 output, err = p.communicate()
-
-if err is not None:
+print(" ".join(cmd))
+if err is not None and len(err) > 3:
     print("Error输出：", err)
     sys.exit(0)
 

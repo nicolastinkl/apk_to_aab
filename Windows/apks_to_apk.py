@@ -64,7 +64,7 @@ cmd = [
     BUNDLETOOL_TOOL_PATH,
     "build-apks",
     f"--bundle='{apksPath}'",
-    f"--output='{apksPath}-output'",
+    f"--output='{apksPath}.apks'",
     f"--ks='{script_dir}\\Keystore\\keystore.jks'",
     f"--ks-pass=pass:colorfulmouseclock",
     "--ks-key-alias=colorfulmouseclock",

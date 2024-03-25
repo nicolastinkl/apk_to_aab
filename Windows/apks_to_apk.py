@@ -62,14 +62,17 @@ cmd = [
     "java",
     "-jar",
     BUNDLETOOL_TOOL_PATH,
-    "build-apks",
-    f"--bundle='{apksPath}'",
-    f"--output='{apksPath}.apks'",
-    f"--ks='{script_dir}\\Keystore\\keystore.jks'",
-    f"--ks-pass=pass:colorfulmouseclock",
-    "--ks-key-alias=colorfulmouseclock",
-    f"--key-pass=pass:colorfulmouseclock",
+    "extract-apks",
+    f"--apks='{apksPath}'",
+    f"--output-dir='{apksPath}.output'",
+    f"--device-spec=device-spec.json",
 ]
+
+
+# f"--ks='{script_dir}\\Keystore\\keystore.jks'",
+# f"--ks-pass=pass:colorfulmouseclock",
+# "--ks-key-alias=colorfulmouseclock",
+# f"--key-pass=pass:colorfulmouseclock",
 
 
 p = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True)

@@ -43,7 +43,7 @@ APKTOOL_PATH = os.path.join(get_base_dir(), "tools", "apktool_2.7.0.jar")  # 我
 AAPT2_PATH = os.path.join(get_base_dir(), "tools", "aapt2", get_system(), "aapt2")
 print(AAPT2_PATH)
 # sys.exit(0)
-ANDROID_JAR_PATH = os.path.join(get_base_dir(), "tools", "android_33.jar")
+ANDROID_JAR_PATH = os.path.join(get_base_dir(), "tools", "android_32.jar")
 BUNDLETOOL_TOOL_PATH = os.path.join(
     get_base_dir(), "tools", "bundletool-all-1.15.1.jar"
 )  # bundletool-all-1.6.1.jar

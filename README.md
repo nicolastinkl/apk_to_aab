@@ -3,6 +3,7 @@
 
 ### Mac OX 使用流程
 
+![](images/19-02-20.png)
 * 运行环境 python3.10 +
 
 * 安装需要的环境
@@ -14,12 +15,12 @@
 * 普通默认直接执行命令生成aab 
 
     ```shell
-    python3.10 bundletool.py -i test.apk -o test.aab
+    python bundletool.py -i test.apk -o test.aab
     ```
 * 普通默认带证书直接执行命令生成aab 
 
     ```shell
-    python3.10 bundletool.py -i /Users/abc123456/Documents/ios/build_aab_tool/ss/com.mahnoor.piratejackpotSlotGame/9fc464b9f2b10c37a5e2c1a2e3ef12e0.20230624180533.apk -o /Users/abc123456/Documents/ios/build_aab_tool/ss/com.mahnoor.piratejackpotSlotGame/9fc464b9f2b10c37a5e2c1a2e3ef12e0.20230624180533.apk_21_07_17.aab  --keystore /Users/abc123456/Documents/ios/build_aab_tool/ss/com.mahnoor.piratejackpotSlotGame/user.keystore  --store_password BlackJackPoker1!@# --key_alias  BlackJackPoker  --key_password  BlackJackPoker1!@#
+    python  bundletool.py -i /Users/abc123456/Documents/ios/build_aab_tool/ss/com.mahnoor.piratejackpotSlotGame/9fc464b9f2b10c37a5e2c1a2e3ef12e0.20230624180533.apk -o /Users/abc123456/Documents/ios/build_aab_tool/ss/com.mahnoor.piratejackpotSlotGame/9fc464b9f2b10c37a5e2c1a2e3ef12e0.20230624180533.apk_21_07_17.aab  --keystore /Users/abc123456/Documents/ios/build_aab_tool/ss/com.mahnoor.piratejackpotSlotGame/user.keystore  --store_password BlackJackPoker1!@# --key_alias  BlackJackPoker  --key_password  BlackJackPoker1!@#
 
     ```
     

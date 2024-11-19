@@ -1,5 +1,7 @@
-# apk转化aab and aab转化aab
+# apk2aab and aab2aab
  
+
+## apk conver to signed apk, aab conver to signed aab.
 
 ### Mac OX 使用流程
 

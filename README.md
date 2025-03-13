@@ -1,7 +1,6 @@
-# apk2aab and aab2aab
- 
-
-## apk conver to signed apk, aab conver to signed aab.
+# Android平台下apk转化为aab文件的python脚本，支持Windows和Macos以及Ubuntu
+- 支持apk 签名为aab文件
+- 支持aab重新签名为aab文件
 
 ### Mac OX 使用流程
 
